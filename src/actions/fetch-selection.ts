@@ -10,10 +10,7 @@ const fetchSelection = {
 		const nodes = figma.currentPage.selection;
 
 		traverseRecursive(nodes, (n, i) => {
-			console.log(n.name);
-			if (n.type === "FRAME") {
-				console.log(n.children);
-			}
+			console.log(n);
 		});
 		
 		figma.ui.postMessage({

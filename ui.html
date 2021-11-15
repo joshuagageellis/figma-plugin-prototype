@@ -1,18 +1,8 @@
-<h2>Rectangle Creator</h2>
-<p>Select the typography frame and click create.</p>
-<button id="create">Create</button>
-<button id="cancel">Cancel</button>
-<script>
-
-document.getElementById('create').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'fetch-selection' } }, '*')
-}
-
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-}
-
-onmessage = (event) => {
-  console.log(event.data.pluginMessage)
-}
-</script>
+<html>
+	<head>
+		<title>Test App</title>
+	</head>
+	<body>
+		<div id="react-root"></div>
+	</body>
+</html>

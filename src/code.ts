@@ -1,7 +1,7 @@
 /**
  * Main entry point for the plugin.
  */
-import router from './src/actions';
+import router from './actions/actions';
 
 // This file holds the main code for the plugins. It has access to the *document*.
 // You can access browser APIs in the <script> tag inside "ui.html" which has a

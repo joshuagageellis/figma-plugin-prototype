@@ -1,7 +1,7 @@
 /**
  * Handle action routing based on message type.
  */
-import fetchSelection from './actions/fetch-selection';
+import fetchSelection from './fetch-selection';
 
 /**
  * Add Actions Here.
@@ -15,7 +15,6 @@ export const ACTIONS = [
  */
 export interface Message {
 	type: string;
-	callback: (msg: any) => void;
 }
 
 /**
