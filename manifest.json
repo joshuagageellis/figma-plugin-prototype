@@ -1,0 +1,10 @@
+{
+  "name": "asset-builder",
+  "id": "1041820221721895656",
+  "api": "1.0.0",
+  "main": "./build/code.js",
+  "editorType": [
+    "figma"
+  ],
+  "ui": "ui.html"
+}
