@@ -6,8 +6,9 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackInlineSourcePlugin from 'html-webpack-inline-source-plugin';
 
-// Local.
+// Loaders.
 import tsLoader from './webpack/typescript.js';
+import cssLoader from './webpack/css.js';
 
 const module = {
 	mode: process.env.NODE_ENV,
@@ -19,7 +20,8 @@ const module = {
 	mode: 'development',
   module: {
     rules: [
-      tsLoader
+      tsLoader,
+      cssLoader
     ]
   },
   resolve: {

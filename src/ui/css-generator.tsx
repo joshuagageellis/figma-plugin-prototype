@@ -1,9 +1,10 @@
 import * as React from 'react'
+import { Input } from 'react-figma-ui';
 
 const CSSGenerator = (props: any) => {
 	return (
 		<div>
-			<h1>Test</h1>
+			<Input label='Breakpoint Test' placeholder='Breakpoint Test' />
 		</div>
 	);
 };
