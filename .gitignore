@@ -1,4 +1,5 @@
 .DS_Store
 /node_modules
 /build/**.*
-**/src/*.js
+**/src/**/*.js
+code.js
