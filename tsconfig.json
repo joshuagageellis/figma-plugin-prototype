@@ -4,6 +4,7 @@
     "lib": ["es6", "dom"],
     "jsx": "react",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@figma"
