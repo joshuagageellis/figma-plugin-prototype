@@ -8,7 +8,14 @@ import router from './actions/actions';
 // full browser environment (see documentation).
 
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__);
+figma.showUI(
+  __html__,
+  {
+    title: 'CSS Gen Pro',
+    width: 400,
+    height: 500,
+  }
+);
 
 // Calls to "parent.postMessage" from within the HTML page will trigger this
 // callback. The callback will be passed the "pluginMessage" property of the
@@ -18,3 +25,9 @@ figma.ui.onmessage = msg => {
   // your HTML page is to use an object with a "type" property like this.
   router(msg);
 };
+
+console.log(figma);
+
+figma.on('selectionchange', () => {
+  console.log(figma.currentPage.selection);
+});

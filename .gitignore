@@ -3,3 +3,6 @@
 /build/**.*
 **/src/**/*.js
 code.js
+
+# Used as dev server target
+!/build/index.html

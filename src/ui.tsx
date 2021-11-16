@@ -2,10 +2,13 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 // Local Deps.
-import CSSGenerator from './ui/css-generator'
+import UnitGroup from './ui/unit-group'
+import CSSOutput from './ui/css-output';
 
 type State = {
-  cssPartials: { [key: string]: any }
+  cssPartials: { [key: string]: any },
+  unit: string,
+  baseFont: number,
 };
 
 class App extends React.Component<{}, State> {
@@ -13,13 +16,31 @@ class App extends React.Component<{}, State> {
     super(props);
     this.state = {
       cssPartials: {},
+      unit: '',
+      baseFont: 16,
     };
+
+    this.handleUnitSelect = this.handleUnitSelect.bind(this);
+    this.handleBaseFontChange = this.handleBaseFontChange.bind(this);
+  }
+
+  handleUnitSelect(e: any) {
+    this.setState({
+      unit: e.target.value
+    });
+  }
+
+  handleBaseFontChange(e: any) {
+     this.setState({
+      baseFont: e.target.value
+    });
   }
 
   render() {
     return (
       <div className='app'>
-        <CSSGenerator partials={this.state.cssPartials} />
+        <UnitGroup unit={this.state.unit} onChange={this.handleUnitSelect} onBaseFontChange={this.handleBaseFontChange} />
+        <CSSOutput unit={this.state.unit} baseFont={this.state.baseFont} />
       </div>
     )
   }
