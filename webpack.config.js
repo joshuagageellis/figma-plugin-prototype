@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackInlineSourcePlugin from 'html-webpack-inline-source-plugin';
+import Browserify from 'path-browserify';
 
 // Loaders.
 import tsLoader from './webpack/typescript.js';
