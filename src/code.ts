@@ -12,8 +12,8 @@ figma.showUI(
   __html__,
   {
     title: 'CSS Gen Pro',
-    width: 400,
-    height: 500,
+    width: 600,
+    height: 600,
   }
 );
 

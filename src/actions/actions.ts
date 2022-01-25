@@ -2,12 +2,17 @@
  * Handle action routing based on message type.
  */
 import fetchSelection from './fetch-selection';
+import processSvg from './process-svg';
+import { processCss, renderType } from './process-css';
 
 /**
  * Add Actions Here.
  */
 export const ACTIONS = [
 	fetchSelection,
+	processSvg,
+	processCss,
+	renderType
 ];
 
 /**

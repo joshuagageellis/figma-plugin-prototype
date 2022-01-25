@@ -5,7 +5,6 @@ const CSSOutput = (props: any) => {
 
 	return (
 		<div>
-			{pxToRem(20)}
 		</div>
 	);
 }

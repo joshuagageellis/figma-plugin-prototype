@@ -1,49 +1,76 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import React, { useEffect, useState } from 'react';
+import * as ReactDOM from 'react-dom';
+import 'normalize.css/normalize.css';
+import './css/main.css';
+import 'figma-plugin-ds/dist/figma-plugin-ds.css';
+import hljs from 'highlight.js/lib/core';
+import cssLang from 'highlight.js/lib/languages/css.js';
+import 'highlight.js/styles/monokai.css';
+hljs.registerLanguage('css', cssLang);
+hljs.configure({
+  ignoreUnescapedHTML: true
+});
 
-// Local Deps.
-import UnitGroup from './ui/unit-group'
-import CSSOutput from './ui/css-output';
+import CSSGroup from './ui/css-group';
 
-type State = {
-  cssPartials: { [key: string]: any },
-  unit: string,
-  baseFont: number,
-};
+const App = () => {
+  const [textTypes, setTextTypes] = useState([]);
+  const [apiErrors, setApiErrors] = useState([]);
 
-class App extends React.Component<{}, State> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      cssPartials: {},
-      unit: '',
-      baseFont: 16,
-    };
+  useEffect(() => {
+    window.addEventListener('message', (event) => {
+      // console.log(event.data.pluginMessage);
 
-    this.handleUnitSelect = this.handleUnitSelect.bind(this);
-    this.handleBaseFontChange = this.handleBaseFontChange.bind(this);
-  }
+      if (event.data.pluginMessage.textTypes) {
+        setTextTypes(() => {
+          let tmp = Object.assign({}, textTypes);
+          tmp = event.data.pluginMessage.textTypes;
+          return tmp;
+        });
+        hljs.highlightAll();
+      }
 
-  handleUnitSelect(e: any) {
-    this.setState({
-      unit: e.target.value
+      if (event.data.pluginMessage.errors) {
+        setApiErrors(event.data.pluginMessage.errors);
+      }
     });
+  }, []);
+
+  const triggerAction = (e: any, type: string) =>{
+    e.preventDefault();
+    parent.postMessage({
+      pluginMessage: {
+        type: type,
+        baseFontSize
+      }
+    }, '*');
   }
 
-  handleBaseFontChange(e: any) {
-     this.setState({
-      baseFont: e.target.value
-    });
-  }
+  // console.log('textTypes', textTypes);
 
-  render() {
-    return (
-      <div className='app'>
-        <UnitGroup unit={this.state.unit} onChange={this.handleUnitSelect} onBaseFontChange={this.handleBaseFontChange} />
-        <CSSOutput unit={this.state.unit} baseFont={this.state.baseFont} />
-      </div>
-    )
-  }
+  const [sampleText, setSampleText] = useState('');
+  const [baseFontSize, setBaseFontSize] = useState(16);
+
+  console.log('errors', apiErrors);
+
+  return (
+    <div className='app'>
+      <h2>Render All Type CSS</h2>
+      <form onSubmit={(e) => triggerAction(e, 'process-css')}>
+        <label className='input__label' htmlFor='sample-text'>Sample Text Output</label>
+        <input className='input__field' type='text' id='sample-text' placeholder='Sample text...' value={sampleText} onChange={(e) => setSampleText(e.target.value)} />
+        <label className='input__label' htmlFor='base-font-size'>Base Font Size</label>
+        <input className='input__field' type='number' id='base-font-size' value={baseFontSize} onChange={(e) => setBaseFontSize(Number(e.target.value))} />
+        <button className='button button--primary' type='submit'>{'Render CSS Snippets'}</button>
+      </form>
+      <button className='button button--secondary' onClick={(e) => triggerAction(e, 'render-type')}>
+        {'Render Figma Nodes'}
+      </button>
+      {apiErrors.length > 0 ? <h4 className='warning-label'>{'You are likely missing local font files.'}</h4>: null}
+      {apiErrors.length ? apiErrors.map((error, index) => <p className='warning-error' key={index}>{error}</p>) : null}
+      {textTypes.length ? textTypes.map((type: any) => <CSSGroup key={type.id} type={type} />) : null}
+    </div>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById('react-root'));
