@@ -1,39 +1,20 @@
 import React, { useRef, useState } from 'react';
-
-export const fromatTypeCSS = (type: any) => {
-	const tmp =
-`.${type.name.replace(/[\W_]+/g,'').toLowerCase()} {
- line-height: ${type.lineHeight};
- font-size: ${type.fontSize}rem;
- letter-spacing: ${type.letterSpacing}rem;
-}
-`;
-
-	return tmp;
-};
-
+import { formatTypeCSS } from '../actions/process-css';
+import { copyToClipboard } from '../helpers/class-process';
 
 const CSSGroup = ({
-	type
+	type,
+	baseFontSize,
 }) => {
-	const tmp = fromatTypeCSS(type);
+	const tmp = formatTypeCSS(type, baseFontSize);
 	const [copy, setCopy] = useState(false);
 	const copyAreaRef = useRef(null);
-
-	const copyToClipboard = () => {
-		copyAreaRef.current.select();
-		document.execCommand('copy');
-		setCopy(true);
-		setTimeout(() => {
-			setCopy(false);
-		}, 2000);
-	};
 
 	return (
 		<div>
 			<h3>{type.name}</h3>
 			<pre>
-				<button className='copy-button' onClick={copyToClipboard}>{copy ? 
+				<button className='copy-button' onClick={() => copyToClipboard(setCopy, copyAreaRef)}>{copy ? 
 					(
 						<span>Copied!</span>
 					) : (

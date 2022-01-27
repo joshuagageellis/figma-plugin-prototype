@@ -1,18 +1,16 @@
 /**
  * Handle action routing based on message type.
  */
-import fetchSelection from './fetch-selection';
-import processSvg from './process-svg';
-import { processCss, renderType } from './process-css';
+import { ProcessCssInstance, RenderNodesInstance } from './process-css';
 
 /**
  * Add Actions Here.
  */
 export const ACTIONS = [
-	fetchSelection,
-	processSvg,
-	processCss,
-	renderType
+	// processCss,
+	// renderType
+	RenderNodesInstance,
+	ProcessCssInstance,
 ];
 
 /**
@@ -31,8 +29,8 @@ const router = (msg: Message) => {
   }
 
 	ACTIONS.forEach(action => {
-		if (action.NAME == msg.type) {
-			action.CALLBACK(msg);
+		if (action.getName() == msg.type) {
+			action.callback(msg);
 		}
 	});
 };

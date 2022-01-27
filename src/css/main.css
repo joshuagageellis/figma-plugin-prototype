@@ -9,26 +9,6 @@ body {
   padding: 20px !important;
 }
 
-/* Form */
-/* button {
-  cursor: pointer;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #001846;
-  padding: 5px 10px;
-  margin-bottom: 8px;
-  border: 2px solid #001846;
-  display: block;
-  border-radius: 4px;
-}
-
-button:hover,
-button:focus {
-  background-color: #2dd7b9;
-  color: #001846;
-}
-*/
-
 input.input__field {
   margin-bottom: 8px;
   width: 100%;
@@ -95,4 +75,9 @@ pre:hover .copy-button {
   color: var(--red);
   font-size: 0.8rem;
   margin-bottom: 8px;
+}
+
+.copy-all,
+.render-nodes {
+  margin-bottom: 1em;
 }
