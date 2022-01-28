@@ -7,8 +7,6 @@ import { ProcessCssInstance, RenderNodesInstance } from './process-css';
  * Add Actions Here.
  */
 export const ACTIONS = [
-	// processCss,
-	// renderType
 	RenderNodesInstance,
 	ProcessCssInstance,
 ];
@@ -18,6 +16,8 @@ export const ACTIONS = [
  */
 export interface Message {
 	type: string;
+	baseFontSize?: number;
+	smapleText?: string;
 }
 
 /**

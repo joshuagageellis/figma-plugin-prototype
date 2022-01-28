@@ -83,10 +83,22 @@ export const fontWeightStyle = (obj: any): string => {
 };
 
 /**
+ * Sort by font size.
+ */
+const uglySort = (a: TextStyle, b: TextStyle) => {
+	if (a.fontSize > b.fontSize) {
+		return 1;
+	} else if (a.fontSize < b.fontSize) {
+		return -1;
+	}
+	return 0;
+};
+
+/**
  * Standard CSS formatting.
  * Run through beautifier.
  */
-export const formatTypeCSS = (type: any, baseFontSize: number): string => {
+export const formatTypeCSS = (type: TextStyle, baseFontSize: number): string => {
 	const useName = type.name.replace(/[\W_]+/g,'-').toLowerCase()
 	const uselineHeight = lineHeight(type.lineHeight, type.fontSize);
 	const useLetterSpacing = letterSpacing(baseFontSize, type.letterSpacing, type.fontSize);
@@ -133,6 +145,9 @@ class ProcessCss extends FigmaProcess {
 
 export const ProcessCssInstance = new ProcessCss('process-css');
 
+type FontGroup = {
+	[index: string]: string[]
+};
 
 class RenderNodes extends FigmaProcess {
 	pageIdentifier: string = '[generated]';
@@ -168,19 +183,7 @@ class RenderNodes extends FigmaProcess {
 		});
 	}
 
-	/**
-	 * Sort by font size.
-	 */
-	uglySort = (a: any, b: any) => {
-		if (a.fontSize > b.fontSize) {
-			return 1;
-		} else if (a.fontSize < b.fontSize) {
-			return -1;
-		}
-		return 0;
-	};
-
-	renderNodes = (styles: any, baseFontSize: number, sampleText: string, fontGroups: any, missingFonts: any) => {
+	renderNodes = (styles: TextStyle[], baseFontSize: number, sampleText: string, fontGroups: FontGroup, missingFonts: string[]) => {
 		console.log(missingFonts);
 		// Cleans up old page.
 		this.removeOldPage();
@@ -199,8 +202,6 @@ class RenderNodes extends FigmaProcess {
 		frame.paddingTop = 24;
 		frame.paddingBottom = 24;
 		frame.itemSpacing = 16;
-
-		// Append.
 		page.appendChild(frame);
 
 		// Create font groups.
@@ -321,9 +322,8 @@ class RenderNodes extends FigmaProcess {
 			l.strokes = lStrokes;
 			o.appendChild(l);
 
-
 			// Sort by fontsize.
-			const sortedStyles = styles.sort(this.uglySort);
+			const sortedStyles = styles.sort(uglySort);
 
 			// Text frame.
 			const i = figma.createFrame();
@@ -439,7 +439,7 @@ Font Name: ${style.fontName.family} ${style.fontName.style}`;
 		fontPromises.push(...defFonts.map((font) => figma.loadFontAsync(font)));
 
 		// Force Promise.all() to resolve all even if erroring.
-		const errors = await Promise.all(fontPromises.map(p => p.catch(err => err)))
+		const errors = await Promise.all(fontPromises.map(p => p.catch((err: any) => err)))
 			.then((resp) => {
 				const missingFonts = resp.filter(r => typeof r === 'string' && r.length > 0);
 				this.renderNodes(styles, baseFontSize, sampleText, fontGroups, missingFonts);

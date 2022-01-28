@@ -9,7 +9,7 @@ const CSSExportAll = ({
 	const [copy, setCopy] = useState(false);
 	const copyAreaRef = useRef(null);
 
-	const css = types.map(type => {
+	const css = types.map((type: TextStyle) => {
 		return formatTypeCSS(type, baseFontSize);
 	});
 
